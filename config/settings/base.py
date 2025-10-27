@@ -32,10 +32,27 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "accounts.apps.AccountsConfig",
     "services.apps.ServicesConfig",
     "bookings.apps.BookingsConfig",
     "contact.apps.ContactConfig",
 ]
+
+# Auth - User
+AUTH_USER_MODEL = "accounts.User"
+
+# Auth - Passwords
+AUTH_PASSWORD_VALIDATORS = [
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+]
+
+# Auth - Redirects
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -75,14 +92,6 @@ DATABASES = {
         conn_max_age=600,
     )
 }
-
-# Passwords
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
 
 # I18N / TZ
 LANGUAGE_CODE = "en-gb"
