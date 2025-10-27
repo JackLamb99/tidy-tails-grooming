@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <!-- {{ form.non_field_errors }} -->
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <p><a href="{% url 'accounts:register' %}">Not registered? Create an account</a></p>
+    </body>
+</html>
