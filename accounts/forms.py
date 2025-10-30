@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-
 from .models import User
 
 
@@ -68,3 +67,19 @@ class EmailAuthenticationForm(forms.Form):
 
     def get_user(self):
         return self.user_cache
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email")
+
+
+class DeleteAccountForm(forms.Form):
+    confirm = forms.BooleanField(
+        required=True,
+        label=(
+            "I understand this will permanently delete my account along with "
+            "all associated bookings and data."
+        )
+    )
