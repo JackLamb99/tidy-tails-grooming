@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.alert[data-autohide="true"]').forEach(function (el) {
         var delay = parseInt(el.getAttribute('data-delay'), 10);
-        if (isNaN(delay)) delay = 5000; // default 5s
+        if (isNaN(delay)) delay = 2000; // default 2s
         setTimeout(function () {
         try {
             var bsAlert = bootstrap.Alert.getOrCreateInstance(el);
