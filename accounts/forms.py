@@ -13,11 +13,28 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ("email", "first_name", "last_name")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["first_name"].required = True
+        self.fields["last_name"].required = True
+
     def clean_email(self):
         email = self.cleaned_data["email"].strip().lower()
         if User.objects.filter(email=email).exists():
             raise ValidationError("An account with this email already exists.")
         return email
+
+    def clean_first_name(self):
+        v = (self.cleaned_data.get("first_name") or "").strip()
+        if not v:
+            raise ValidationError("First name is required.")
+        return v
+
+    def clean_last_name(self):
+        v = (self.cleaned_data.get("last_name") or "").strip()
+        if not v:
+            raise ValidationError("Last name is required.")
+        return v
 
     def clean(self):
         cleaned = super().clean()
