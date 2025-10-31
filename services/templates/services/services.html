@@ -9,14 +9,14 @@
         {% for service in services %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{ service.name }}</h5>
-                <p class="card-text">{{ service.description }}</p>
-                <p class="text-muted mb-3">Prices from £{{ service.price_small }}</p>
-                <button class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#service-modal-{{ service.id }}">
-                    View full details
-                </button>
-            </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text">{{ service.description }}</p>
+                    <p class="text-muted mb-3">Prices from £{{ service.price_small }}</p>
+                    <button class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#service-modal-{{ service.id }}">
+                        View full details
+                    </button>
+                </div>
             </div>
         </div>
 
