@@ -2,188 +2,244 @@
 {% load static %}
 
 {% block content %}
-    <div class="container my-5">
-        <h1 class="mb-4">My Account</h1>
+<div class="container my-5">
+    <h1 class="mb-4">My Account</h1>
 
-        {% if user.is_authenticated %}
-            <div class="row g-4">
-                <!-- My Details -->
-                <div class="col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">My Details</h3>
+    {% if user.is_authenticated %}
 
-                            {% if messages %}
-                                {% for message in messages %}
-                                    {% if "account" in message.tags %}
-                                        <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
-                                            data-autohide="true" data-delay="2000">
-                                            {{ message }}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
+    <div class="accordion" id="accountAccordion">
+
+        <!-- My Details (Item 1) -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingDetails">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseDetails" aria-expanded="true" aria-controls="collapseDetails">
+                    My Details
+                </button>
+            </h2>
+            <div id="collapseDetails" class="accordion-collapse collapse show"
+                    aria-labelledby="headingDetails" data-bs-parent="#accountAccordion">
+                <div class="accordion-body">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "account" in message.tags %}
+                                <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
+                                    data-autohide="true" data-delay="2000">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
                             {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
-                            <!-- Profile Update -->
-                            <h5>Update Profile</h5>
+                    <!-- Profile Update -->
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Update Profile</h5>
                             <form method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="form_name" value="profile">
                                 {{ profile_form.as_p }}
                                 <button type="submit" class="btn btn-primary">Save Details</button>
                             </form>
+                        </div>
+                    </div>
 
-                            <!-- Password Change -->
-                            <h5>Change Password</h5>
-                            <form method="post" class="mb-3">
+                    <!-- Password Change -->
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Change Password</h5>
+                            <form method="post" class="mb-0">
                                 {% csrf_token %}
                                 <input type="hidden" name="form_name" value="password">
                                 {{ password_form.as_p }}
                                 <button type="submit" class="btn btn-primary">Update Password</button>
                             </form>
-
-                            <!-- Delete Account -->
-                            <h5>Delete Account</h5>
-                            <form method="post" onsubmit="return confirm('Are you sure? This cannot be undone.');">
-                                {% csrf_token %}
-                                <input type="hidden" name="form_name" value="delete">
-                                {{ delete_form.as_p }}
-                                <button type="submit" class="btn btn-danger">Delete Account</button>
-                            </form>
                         </div>
                     </div>
-                </div>
 
-                <!-- My Bookings -->
-                <div class="col-lg-6">
-                    <div class="card shadow-sm">
+                    <!-- Delete Account (modal confirmation) -->
+                    <div class="card shadow-sm border-0">
                         <div class="card-body">
-                            <h3 class="card-title mb-3">My Bookings</h3>
-
-                            {% if messages %}
-                                {% for message in messages %}
-                                    {% if "bookings" in message.tags %}
-                                        <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
-                                            data-autohide="true" data-delay="2000">
-                                            {{ message }}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-
-                            <h6 class="text-uppercase text-muted">Upcoming</h6>
-                            {% if upcoming %}
-                                <div class="list-group mb-3">
-                                    {% for b in upcoming %}
-                                        <div class="list-group-item">
-                                            <div class="mb-2">
-                                                <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
-                                                <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
-                                                <span class="badge bg-secondary">{{ b.get_status_display }}</span>
-                                            </div>
-                                            <div>
-                                                <a href="{% url 'accounts:account' %}?edit={{ b.pk }}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                                                <form method="post" action="{% url 'bookings:booking_cancel' b.pk %}" class="d-inline"> 
-                                                    {% csrf_token %}
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-sm btn-outline-danger"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#confirmCancelModal"
-                                                        data-cancel-url="{% url 'bookings:booking_cancel' b.pk %}"
-                                                        data-cancel-label="{{ b.date }} @ {{ b.time|time:'H:i' }}">
-                                                        Cancel
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <p class="text-muted">No upcoming bookings.</p>
-                            {% endif %}
-
-                            <h6 class="text-uppercase text-muted mt-3">Completed or Cancelled</h6>
-                            {% if previous_cancelled %}
-                                <div class="list-group">
-                                    {% for b in previous_cancelled %}
-                                        <div class="list-group-item">
-                                            <div>
-                                                <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
-                                                <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
-                                                <span class="badge bg-secondary">{{ b.get_status_display }}</span>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                            <p class="text-muted">No completed or cancelled bookings.</p>
-                            {% endif %}
-
-                            <div class="mt-3">
-                                <a href="{% url 'bookings:booking_create_page' %}" class="btn btn-primary">Make a Booking</a>
-                            </div>
+                            <h5 class="card-title mb-3 text-danger">Delete Account</h5>
+                            <p class="mb-3 text-muted">This action is permanent and cannot be undone.</p>
+                            <button type="button" class="btn btn-danger"
+                                    data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                Delete Account
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
-        {% else %}
-            <div class="alert alert-info">
-                You need to be logged in to view your account.
-            </div>
-            <a href="{% url 'accounts:login' %}" class="btn btn-primary">Log In</a>
-            <a href="{% url 'accounts:register' %}" class="btn btn-primary">Register</a>
-        {% endif %}
-    </div>
 
-    <!-- Edit Booking Modal -->
-    {% if editing and edit_form %}
-        <div class="modal fade show" style="display:block;" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Booking - {{ editing.date }} @ {{ editing.time|time:"H:i" }}</h5>
-                        <a href="{% url 'accounts:account' %}" class="btn-close"></a>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="form_name" value="edit_booking">
-                            <input type="hidden" name="booking_id" value="{{ editing.pk }}">
-                            {{ edit_form.as_p }}
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                            <a href="{% url 'accounts:account' %}" class="btn btn-secondary ms-2">Close</a>
-                            <p class="mt-2 text-muted">Date and time cannot be changed, please cancel and rebook if necessary.</p>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="modal-backdrop fade show"></div>
+
+        <!-- My Bookings (Item 2) -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingBookings">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseBookings" aria-expanded="false" aria-controls="collapseBookings">
+                    My Bookings
+                </button>
+            </h2>
+            <div id="collapseBookings" class="accordion-collapse collapse"
+                    aria-labelledby="headingBookings" data-bs-parent="#accountAccordion">
+                <div class="accordion-body">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "bookings" in message.tags %}
+                                <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
+                                    data-autohide="true" data-delay="2000">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Upcoming Bookings -->
+                    <h6 class="text-uppercase text-muted">Upcoming</h6>
+                    {% if upcoming %}
+                        <div class="list-group mb-3">
+                            {% for b in upcoming %}
+                                <div class="list-group-item">
+                                    <div class="mb-2">
+                                        <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
+                                        <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
+                                        <span class="badge bg-secondary">{{ b.get_status_display }}</span>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'accounts:account' %}?edit={{ b.pk }}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                        <form method="post" action="{% url 'bookings:booking_cancel' b.pk %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#confirmCancelModal"
+                                                data-cancel-url="{% url 'bookings:booking_cancel' b.pk %}"
+                                                data-cancel-label="{{ b.date }} @ {{ b.time|time:'H:i' }}">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No upcoming bookings.</p>
+                    {% endif %}
+
+                    <!-- Completed or Cancelled Bookings -->
+                    <h6 class="text-uppercase text-muted mt-3">Completed or Cancelled</h6>
+                    {% if previous_cancelled %}
+                        <div class="list-group">
+                            {% for b in previous_cancelled %}
+                                <div class="list-group-item">
+                                    <div>
+                                        <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
+                                        <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
+                                        <span class="badge bg-secondary">{{ b.get_status_display }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No completed or cancelled bookings.</p>
+                    {% endif %}
+
+                    <div class="mt-3">
+                        <a href="{% url 'bookings:booking_create_page' %}" class="btn btn-primary">Make a Booking</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% else %}
+        <div class="alert alert-info">
+            You need to be logged in to view your account.
+        </div>
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary">Log In</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-primary">Register</a>
     {% endif %}
+</div>
 
-    <!-- Cancel Confirmation Modal -->
-    <div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelLabel" aria-hidden="true">
-        <div class="modal-dialog">
+<!-- Edit Booking Modal -->
+{% if editing and edit_form %}
+    <div class="modal fade show" style="display:block;" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form id="cancelForm" method="post">
-                    {% csrf_token %}
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmCancelLabel">Cancel Booking</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="mb-0" id="confirmCancelText">Are you sure you want to cancel `this booking`?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
-                        <button type="submit" class="btn btn-danger">Yes, cancel it</button>
-                    </div>
-                </form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Booking - {{ editing.date }} @ {{ editing.time|time:"H:i" }}</h5>
+                    <a href="{% url 'accounts:account' %}" class="btn-close"></a>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_name" value="edit_booking">
+                        <input type="hidden" name="booking_id" value="{{ editing.pk }}">
+                        {{ edit_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{% url 'accounts:account' %}" class="btn btn-secondary ms-2">Close</a>
+                        <p class="mt-2 text-muted">Date and time cannot be changed, please cancel and rebook if necessary.</p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    <div class="modal-backdrop fade show"></div>
+{% endif %}
 
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form id="cancelForm" method="post">
+            {% csrf_token %}
+            <div class="modal-header">
+            <h5 class="modal-title" id="confirmCancelLabel">Cancel Booking</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p class="mb-0" id="confirmCancelText">Are you sure you want to cancel `this booking`?</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+            <button type="submit" class="btn btn-danger">Yes, cancel it</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Confirmation Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="form_name" value="delete">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="deleteAccountLabel">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">
+                        This will permanently delete your account and associated data where permitted.
+                    </p>
+                    {{ delete_form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, keep it</button>
+                    <button type="submit" class="btn btn-danger">Yes, delete my account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
