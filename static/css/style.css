@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;800&family=Poppins:wght@600;700&display=swap');
+
+/* Base Styles */
+html, body {
+    background-color: #FAF0E6;
+    color: #333333;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 500;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+}
+
+main {
+    flex: 1;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    color: #DF8063;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #EFEFFF !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: #DF8063 !important;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: #333333;
+    transition: color 0.15s ease, opacity 0.15s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    font-weight: bold;
+    color: #333333;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    position: relative;
+}
+
+.navbar-toggler {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #7DB2D6;
+    border-color: #7DB2D6;
+    color: #333333;
+    border-radius: 0.5rem;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-primary:hover {
+    background-color: #5583A2;
+    border-color: #5583A2;
+    color: #E8E8E8;
+    font-weight: 700;
+}
+
+/* Footer */
+.footer {
+    background-color: #5583A2;
+    font-size: 1.2rem;
+    margin-top: auto;
+}
+
+.footer .contact-link {
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+    color: #EFEFFF;
+}
+
+.footer .contact-link:hover {
+    opacity: 0.8;
+}
+
+.footer a i {
+    margin: auto;
+    color: #EFEFFF;
+}
+
+.footer .social-link {
+    font-size: 2rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer .social-link:hover {
+    transform: scale(1.15);
+    opacity: 0.8;
+}
+
+/* Utilities */
+a {
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 360px) {
+    /* Navbar */
+    .navbar-brand span {
+        font-size: 1.2rem;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #5583A2;
+        font-size: 1.1rem;
+        margin-top: auto;
+    }
+}
