@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h5 class="modal-title">Booking Details</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <dl class="row">
+        <dt class="col-sm-4">Customer</dt>
+        <dd class="col-sm-8">{{ b.user.first_name }} {{ b.user.last_name }} ({{ b.user.email }})</dd>
+        <dt class="col-sm-4">Date</dt>
+        <dd class="col-sm-8">{{ b.date }}</dd>
+        <dt class="col-sm-4">Time</dt>
+        <dd class="col-sm-8">{{ b.time|time:"H:i" }}</dd>
+        <dt class="col-sm-4">Service</dt>
+        <dd class="col-sm-8">{{ b.get_service_display_name }}</dd>
+        <dt class="col-sm-4">Breed Size</dt>
+        <dd class="col-sm-8">{{ b.breed_size }}</dd>
+        {% if b.notes %}
+            <dt class="col-sm-4">Notes</dt>
+            <dd class="col-sm-8">{{ b.notes|linebreaksbr }}</dd>
+        {% endif %}
+    </dl>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+</div>
