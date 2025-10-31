@@ -2,21 +2,105 @@
 {% load static %}
 
 {% block content %}
-    <h1>Home</h1>
+<section class="hero-section d-flex align-items-center justify-content-center text-center">
+    <h1 class="display-1 fw-bold hero-title">Tidy Tails Grooming</h1>
+</section>
 
-    {% if user.is_authenticated %}
-    <!-- HOMEPAGE -->
-    <p>Welcome, {{ user.first_name }}!</p>
-    <form method="post" action="{% url 'accounts:logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log out</button>
-    </form>
-    {% else %}
-    <!-- HOMEPAGE -->
-    <p>You are not logged in.</p>
-    <p>
-        <a href="{% url 'accounts:login' %}">Login</a><br>
-        <a href="{% url 'accounts:register' %}">Register</a>
-    </p>
-    {% endif %}
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <h2 class="h3 mb-3">Caring, Qualified, Consistent</h2>
+            <p class="mb-3">
+                At Tidy Tails Grooming, we keep things friendly, calm and clean so every visit feels easy for you and your dog.
+                We focus on gentle handling, clear communication, and great results — from simple bath & brush to full styling.
+            </p>
+            <p class="mb-3">
+                <strong>Our ethos:</strong> low-stress appointments, hygiene first, and styles that suit your dog's coat, lifestyle, and comfort.
+                We use professional shampoos, clean tools between every appointment, and tailor each groom to your dog.
+            </p>
+            <p class="mb-0">
+                <strong>UK qualifications & good practice:</strong> staff trained to <em>Level 3 Dog Grooming</em> standards,
+                canine first-aid certified, and operating with insurance and full appointment records. We follow industry guidance
+                on coat care, welfare, and safe drying/handling techniques.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-12 col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h2 class="h4 mb-3">Opening Hours</h2>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between"><span>Monday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Tuesday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Wednesday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Thursday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Friday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Saturday</span><strong>06:00 - 20:00</strong></li>
+                            <li class="list-group-item d-flex justify-content-between"><span>Sunday</span><strong>06:00 - 20:00</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <h2 class="h4 mb-3">Find Us</h2>
+                        <p class="mb-2"><strong>Address</strong><br>
+                            12 Brush & Bubble Lane, Riverside Quarter, London, LDN 3BB</p>
+                        <p class="mb-2"><strong>Phone</strong><br>
+                            0208 555 0199</p>
+                        <p class="mb-3"><strong>Email</strong><br>
+                            hello@tidytails.co.uk</p>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-primary" href="/bookings/">Book Now</a>
+                            <a class="btn btn-outline-primary" href="/contact/">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container justify-content-center">
+        <h2 class="h3 mb-3 text-center">Gallery</h2>
+        <div id="galleryCarousel" class="carousel slide shadow-sm rounded-3 overflow-hidden" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/carousel-01.jpg' %}" class="d-block w-100" alt="Dog getting trimmed">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/carousel-02.jpg' %}" class="d-block w-100" alt="Paw pads being trimmed">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/carousel-03.jpg' %}" class="d-block w-100" alt="Trim under the legs">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/carousel-04.jpg' %}" class="d-block w-100" alt="Bath and shampoo">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
