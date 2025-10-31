@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 import environ
 import dj_database_url
@@ -22,16 +23,20 @@ environ.Env.read_env(BASE_DIR / ".env")  # Load .env if present locally
 
 SECRET_KEY = env("SECRET_KEY", default="unsafe-dev-key")  # override in .env
 DEBUG = env("DEBUG")  # False by default
+
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
 # Apps
 INSTALLED_APPS = [
+    # Django apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Project apps
     "accounts.apps.AccountsConfig",
     "services.apps.ServicesConfig",
     "bookings.apps.BookingsConfig",
@@ -55,6 +60,7 @@ LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -66,7 +72,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# URLs / WSGI
 ROOT_URLCONF = "config.urls"
+WSGI_APPLICATION = "config.wsgi.application"
 
 TEMPLATES = [
     {
@@ -84,8 +92,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-
 # Database
 DATABASES = {
     "default": dj_database_url.parse(
@@ -100,14 +106,13 @@ TIME_ZONE = "Europe/London"
 USE_I18N = True
 USE_TZ = True
 
-# Static
+# Static files (Whitenoise)
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"] if (BASE_DIR / "static").exists() else []
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Security defaults
-CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 SECURE_SSL_REDIRECT = False
