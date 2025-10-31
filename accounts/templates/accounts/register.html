@@ -1,12 +1,122 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <h1>Register</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Create account</button>
-        </form>
-        <p><a href="{% url 'accounts:login' %}">Already registered? Sign in</a></p>
-    </body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container page-centre my-4">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+                <h1 class="h3 mb-3 text-center">Create Account</h1>
+
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for err in form.non_field_errors %}{{ err }} {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email</label>
+                        <input
+                            type="email"
+                            name="{{ form.email.name }}"
+                            id="id_email"
+                            class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                            value="{{ form.email.value|default_if_none:'' }}"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                            autofocus>
+                        {% if form.email.errors %}
+                            <div class="invalid-feedback">
+                                {% for err in form.email.errors %}{{ err }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_first_name" class="form-label">First name</label>
+                        <input
+                            type="text"
+                            name="{{ form.first_name.name }}"
+                            id="id_first_name"
+                            class="form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                            value="{{ form.first_name.value|default_if_none:'' }}"
+                            autocomplete="given-name"
+                            required>
+                        {% if form.first_name.errors %}
+                            <div class="invalid-feedback">
+                                {% for err in form.first_name.errors %}{{ err }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_last_name" class="form-label">Last name</label>
+                        <input
+                            type="text"
+                            name="{{ form.last_name.name }}"
+                            id="id_last_name"
+                            class="form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                            value="{{ form.last_name.value|default_if_none:'' }}"
+                            autocomplete="family-name"
+                            required>
+                        {% if form.last_name.errors %}
+                            <div class="invalid-feedback">
+                                {% for err in form.last_name.errors %}{{ err }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            name="{{ form.password1.name }}"
+                            id="id_password1"
+                            class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+                            autocomplete="new-password"
+                            required>
+                        {% if form.password1.errors %}
+                            <div class="invalid-feedback">
+                                {% for err in form.password1.errors %}{{ err }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {# Confirm Password #}
+                    <div class="mb-4">
+                        <label for="id_password2" class="form-label">Confirm password</label>
+                        <input
+                            type="password"
+                            name="{{ form.password2.name }}"
+                            id="id_password2"
+                            class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+                            autocomplete="new-password"
+                            required>
+                        {% if form.password2.errors %}
+                            <div class="invalid-feedback">
+                                {% for err in form.password2.errors %}{{ err }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </div>
+                </form>
+
+                <hr class="my-4">
+
+                <p class="mb-0 text-center">
+                    Already have an account?
+                    <a href="{% url 'accounts:login' %}">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
