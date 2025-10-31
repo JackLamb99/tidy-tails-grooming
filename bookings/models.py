@@ -39,17 +39,21 @@ class Booking(models.Model):
     )
     service = models.ForeignKey(
         Service,
-        on_delete=models.PROTECT,  # Keep booking history if service is removed
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
         related_name="bookings",
     )
 
     # Capture the service originally chosen at booking time
     original_service = models.ForeignKey(
         Service,
-        on_delete=models.PROTECT,  # Keep booking history if service is removed
-        editable=False,
+        on_delete=models.SET_NULL,
         null=True, blank=True,
         related_name="original_bookings",
+    )
+
+    service_name_snapshot = models.CharField(
+        max_length=120, editable=False, blank=True, default=""
     )
 
     date = models.DateField()
@@ -66,6 +70,12 @@ class Booking(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_service_display_name(self) -> str:
+        """Safe service name for admin when FK may be null after deletion."""
+        if self.service_id and self.service:
+            return self.service.name
+        return self.service_name_snapshot or "Service (deleted)"
 
     def clean(self):
         errors = {}
@@ -145,10 +155,16 @@ class Booking(models.Model):
         if errors:
             raise ValidationError(errors)
 
-    # Capture original_service on first save
     def save(self, *args, **kwargs):
+        # Capture original_service on first save
         if not self.pk and self.service_id and not self.original_service_id:
             self.original_service_id = self.service_id
+
+        # Ensure service name snapshot is set
+        if not self.service_name_snapshot and self.service_id:
+            # Record name at time of booking
+            self.service_name_snapshot = self.service.name
+
         super().save(*args, **kwargs)
 
     @property
@@ -167,7 +183,7 @@ class Booking(models.Model):
 
     def __str__(self):
         return (
-            f"{self.user} | {self.service.name} | "
+            f"{self.user} | {self.get_service_display_name()} | "
             f"{self.date} @ {self.time.strftime('%H:%M')} "
             f"[{self.get_status_display()}]"
         )
