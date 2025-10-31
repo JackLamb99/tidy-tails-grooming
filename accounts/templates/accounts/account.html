@@ -19,7 +19,7 @@
                                         <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
                                             data-autohide="true" data-delay="2000">
                                             {{ message }}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -66,8 +66,8 @@
                                     {% if "bookings" in message.tags %}
                                         <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert"
                                             data-autohide="true" data-delay="2000">
-                                        {{ message }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                            {{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
@@ -106,7 +106,7 @@
                                 <p class="text-muted">No upcoming bookings.</p>
                             {% endif %}
 
-                            <h6 class="text-uppercase text-muted mt-3">Previous or Cancelled</h6>
+                            <h6 class="text-uppercase text-muted mt-3">Completed or Cancelled</h6>
                             {% if previous_cancelled %}
                                 <div class="list-group">
                                     {% for b in previous_cancelled %}
@@ -120,7 +120,7 @@
                                     {% endfor %}
                                 </div>
                             {% else %}
-                            <p class="text-muted">No previous or cancelled bookings.</p>
+                            <p class="text-muted">No completed or cancelled bookings.</p>
                             {% endif %}
 
                             <div class="mt-3">
