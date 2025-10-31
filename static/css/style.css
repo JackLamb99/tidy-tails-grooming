@@ -2,7 +2,7 @@
 
 /* Base Styles */
 html, body {
-    background-color: #FAF0E6;
+    background-color: #FDEFD3;
     color: #333333;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 500;
@@ -24,7 +24,7 @@ main {
 h1, h2, h3, h4, h5, h6,
 .navbar-brand {
     font-family: 'Poppins', sans-serif;
-    color: #DF8063;
+    color: #DF8063 !important;
 }
 
 /* Navbar */
@@ -107,9 +107,20 @@ h1, h2, h3, h4, h5, h6,
     opacity: 0.8;
 }
 
+/* 404 Page */
+.not-found-image {
+    max-width: 280px;
+}
+
 /* Utilities */
 a {
     text-decoration: none;
+}
+
+.page-centre {
+    min-height: calc(100dvh - 225px);
+    display: grid;
+    place-items: center;
 }
 
 /* Responsive Design */
@@ -129,5 +140,14 @@ a {
         background-color: #5583A2;
         font-size: 1.1rem;
         margin-top: auto;
+    }
+
+    .footer .social-link {
+        font-size: 1.5rem;
+    }
+
+    /* 404 Page */
+    .not-found-image {
+        max-width: 180px;
     }
 }
