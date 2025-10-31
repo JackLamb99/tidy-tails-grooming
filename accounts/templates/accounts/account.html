@@ -80,13 +80,12 @@
                                         <div class="list-group-item">
                                             <div class="mb-2">
                                                 <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
-                                                <small>{{ b.service.name }} - {{ b.get_breed_size_display }}</small><br>
+                                                <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
                                                 <span class="badge bg-secondary">{{ b.get_status_display }}</span>
                                             </div>
                                             <div>
                                                 <a href="{% url 'accounts:account' %}?edit={{ b.pk }}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                                                <form method="post" action="{% url 'bookings:booking_cancel' b.pk %}" class="d-inline"
-                                                        onsubmit="return confirm('Cancel this booking?');">
+                                                <form method="post" action="{% url 'bookings:booking_cancel' b.pk %}" class="d-inline"> 
                                                     {% csrf_token %}
                                                     <button
                                                         type="button"
@@ -113,7 +112,7 @@
                                         <div class="list-group-item">
                                             <div>
                                                 <strong>{{ b.date }}</strong> @ {{ b.time|time:"H:i" }}<br>
-                                                <small>{{ b.service.name }} - {{ b.get_breed_size_display }}</small><br>
+                                                <small>{{ b.get_service_display_name }} - {{ b.get_breed_size_display }}</small><br>
                                                 <span class="badge bg-secondary">{{ b.get_status_display }}</span>
                                             </div>
                                         </div>
