@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "services.apps.ServicesConfig",
     "bookings.apps.BookingsConfig",
     "contact.apps.ContactConfig",
+    "dashboard.apps.DashboardConfig",
 ]
 
 # Auth - User
