@@ -84,8 +84,3 @@ class BookingAdmin(admin.ModelAdmin):
     # But fields are read-only so they can't edit records manually
     def has_change_permission(self, request, obj=None):
         return request.user.is_superuser
-
-    # No deletes from admin to prevent loss of booking history
-    # Use Cancel action instead
-    def has_delete_permission(self, request, obj=None):
-        return False
