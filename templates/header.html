@@ -1,0 +1,57 @@
+{% load static %}
+<header>
+    <nav class="navbar navbar-expand-lg bg-body border-bottom fixed-top" aria-label="Primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <img src="{% static 'images/tidy-tails-logo.webp' %}" alt="" width="32" height="32" class="rounded-circle">
+                <span>Tidy Tails Grooming</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <!-- Nav links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/services/' %}active{% endif %}" href="/services/">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/bookings/' %}active{% endif %}" href="/bookings/">Book</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/accounts/account/' %}active{% endif %}" href="/accounts/account/">Account</a>
+                    </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated and request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/dashboard/admin/' %}active{% endif %}" href="/dashboard/admin/">Admin</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <!-- Login/Logout -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <form action="/accounts/logout/" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="/accounts/login/">Login</a>
+                    </li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
