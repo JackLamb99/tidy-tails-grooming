@@ -2,52 +2,93 @@
 {% load static %}
 
 {% block content %}
+<div class="container my-4">
     <h1 class="mb-4 text-center">Our Services</h1>
 
-    <div class="row">
+    <div class="row g-4">
         <!-- Service Cards -->
         {% for service in services %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ service.name }}</h5>
-                    <p class="card-text">{{ service.description }}</p>
-                    <p class="text-muted mb-3">Prices from £{{ service.price_small }}</p>
-                    <button class="btn btn-primary mt-auto" data-bs-toggle="modal" data-bs-target="#service-modal-{{ service.id }}">
-                        View full details
-                    </button>
-                </div>
-            </div>
-        </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ service.name }}</h5>
 
-        <!-- Service Modal -->
-        <div class="modal fade" id="service-modal-{{ service.id }}" tabindex="-1" aria-labelledby="service-modal-label-{{ service.id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="service-modal-label-{{ service.id }}">{{ service.name }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{ service.description }}</p>
-                        <h6>Includes:</h6>
-                        <ul>
-                            {% for item in service.includes_list %}
-                            <li>{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                        <h6 class="mt-3">Pricing:</h6>
-                        <ul>
-                            <li>Small breeds: £{{ service.price_small }}</li>
-                            <li>Medium breeds: £{{ service.price_medium }}</li>
-                            <li>Large breeds: £{{ service.price_large }}</li>
-                        </ul>
-                        <p><em>These prices are a guide and may vary depending on your pet's individual needs, no payment is needed for booking, 
-                            final pricing will be confirmed in person before the service begins.</em></p>
+                        <div class="mb-2">
+                            {% if service.price_small %}
+                                <div class="badge text-bg-primary">From £{{ service.price_small }}</div>
+                            {% endif %}
+                        </div>
+
+                        {% if service.description %}
+                            <p class="card-text mb-3">{{ service.description }}</p>
+                        {% endif %}
+                        <button
+                            class="btn btn-primary mt-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#service-modal-{{ service.id }}">
+                            View full details
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Service Modal -->
+            <div class="modal fade" id="service-modal-{{ service.id }}" tabindex="-1"
+                    aria-labelledby="service-modal-label-{{ service.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content border-0">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="service-modal-label-{{ service.id }}">{{ service.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            {% if service.description %}
+                                <p class="mb-3">{{ service.description }}</p>
+                            {% endif %}
+                            {% if service.includes_list %}
+                                <h6 class="mb-2">Includes</h6>
+                                <ul class="mb-3">
+                                {% for item in service.includes_list %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                            <h6 class="mt-3">Pricing:</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle mb-3">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Size</th>
+                                            <th scope="col" class="text-end">Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if service.price_small %}
+                                            <tr><td>Small</td><td class="text-end">£{{ service.price_small }}</td></tr>
+                                        {% endif %}
+                                        {% if service.price_medium %}
+                                            <tr><td>Medium</td><td class="text-end">£{{ service.price_medium }}</td></tr>
+                                        {% endif %}
+                                        {% if service.price_large %}
+                                            <tr><td>Large</td><td class="text-end">£{{ service.price_large }}</td></tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="small text-muted mb-0">
+                                Prices are a guide and may vary depending on your pet's needs. No payment is taken at booking;
+                                final pricing is confirmed in person before the service begins.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/bookings/?service={{ service.id }}" class="btn btn-primary w-100 w-sm-auto">Book now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
+</div>
 {% endblock %}
