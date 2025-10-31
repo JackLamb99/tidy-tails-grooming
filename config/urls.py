@@ -14,4 +14,5 @@ urlpatterns = [
     path("services/", include("services.urls", namespace="services")),
     path("bookings/", include("bookings.urls", namespace="bookings")),
     path("contact/", include("contact.urls", namespace="contact")),
+    path("dashboard/", include("dashboard.urls", namespace="dashboard")),
 ]
