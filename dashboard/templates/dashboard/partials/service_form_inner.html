@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="serviceFormLabel">{{ title }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<form id="serviceForm" method="post" action="{{ action_url }}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            {{ form.name }}
+            {% for e in form.name.errors %}
+                <div class="text-danger small">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ form.description }}
+            {% for e in form.description.errors %}
+                <div class="text-danger small">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Includes</label>
+            {{ form.includes }}
+            {% for e in form.includes.errors %}
+                <div class="text-danger small">{{ e }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Price (Small breeds)</label>
+                {{ form.price_small }}
+                {% for e in form.price_small.errors %}
+                    <div class="text-danger small">{{ e }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Price (Medium breeds)</label>
+                {{ form.price_medium }}
+                {% for e in form.price_medium.errors %}
+                    <div class="text-danger small">{{ e }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Price (Large breeds)</label>
+                {{ form.price_large }}
+                {% for e in form.price_large.errors %}
+                    <div class="text-danger small">{{ e }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-check mb-1">
+            {{ form.is_active }} <label class="form-check-label">Active</label>
+            {% for e in form.is_active.errors %}
+                <div class="text-danger small">{{ e }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">{{ submit_label }}</button>
+    </div>
+</form>
