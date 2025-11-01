@@ -405,11 +405,13 @@ Works as expected.
 ### Validation
 
 #### HTML
-Site validated with [W3C Markup Validator](https://validator.w3.org/) – no errors.  
+Site validated with [W3C Markup Validator](https://validator.w3.org/) – no errors.
+
 ![Validation - HTML](docs/images/validation-html.png)
 
 #### CSS
-Site validated with [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) – no errors.  
+Site validated with [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) – no errors.
+
 ![Validation - CSS](docs/images/validation-css.png)
 
 #### JavaScript
