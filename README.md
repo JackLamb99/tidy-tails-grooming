@@ -215,7 +215,9 @@ Both fonts provide clarity and warmth suitable for a customer-facing small busin
 
 ### Database Schema
 
-<details><summary>Entity Relationship Diagram</summary>
+A text-based ERD (Mermaid) generated from the current models is available in [`docs/ERD.md`](docs/ERD.md).
+
+<details><summary>Entity Relationship Diagram (image)</summary>
 
 ![Entity Relationship Diagram](docs/images/erd.png)
 
